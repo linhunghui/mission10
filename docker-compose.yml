@@ -1,0 +1,28 @@
+version: '3'
+services:
+  jupyter-tutorial:
+    build: .
+    container_name: jupyter.local-m10
+    user: root
+    ports:
+      - "8888:8888"
+      - "5000:5000"
+    volumes:
+      - ./work:/home/jovyan/work/
+    command: start-notebook.sh --NotebookApp.token=''
+ 
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ggboy
+    volumes:
+      - ./data/:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
